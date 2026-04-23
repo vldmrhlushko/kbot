@@ -19,3 +19,13 @@ export TELE_TOKEN
 ./kbot start
 
 
+
+# Next Lesson
+## Makefile creation. A Makefile is just a simple way to standardize and automate repetitive commands like build, test, lint, versioning
+
+## list steps, begin with format, then build. As a version you can choose attributes from git repository and assign variables: describe --tags --abbrev=0    git rev-parse --short HEAD
+
+## Add rules of Dokerfile for building image to Makefile
+
+
+
