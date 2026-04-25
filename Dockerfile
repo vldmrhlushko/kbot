@@ -17,6 +17,6 @@ FROM alpine:latest
 
 WORKDIR /
 COPY --from=builder /app/kbot /kbot
-COPY --from=alpine:3.20 /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+COPY --from=alpine:latest /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 
 ENTRYPOINT ["/kbot"]
