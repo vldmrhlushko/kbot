@@ -59,3 +59,4 @@ push:
 
 clean:
 	rm -rf build
+	docker rmi $(REGISTRY)/$(APP):$(VERSION)-$(TARGETOS)-$(TARGETARCH)
