@@ -1,11 +1,22 @@
-FROM golang:1.19 AS builder
+FROM golang:1.22 AS builder
 
-WORKDIR /go/src/app
+WORKDIR /app
 COPY . .
-RUN make build
 
-FROM scratch
+ARG TARGETOS=linux
+ARG TARGETARCH=arm64
+ARG VERSION
+
+RUN CGO_ENABLED=0 GOOS=$TARGETOS GOARCH=$TARGETARCH \
+    go build -v -o kbot \
+    -ldflags "-X=github.com/vldmrhlushko/kbot/cmd.appVersion=$VERSION"
+
+    
+
+FROM alpine:latest
+
 WORKDIR /
-COPY --from=builder /go/src/app/kbot .
-COPY --from=alpine:latest /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
-ENTRYPOINT ["./kbot"]
+COPY --from=builder /app/kbot /kbot
+COPY --from=alpine:3.20 /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+
+ENTRYPOINT ["/kbot"]

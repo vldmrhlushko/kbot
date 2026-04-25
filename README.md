@@ -27,5 +27,7 @@ export TELE_TOKEN
 
 ## Add rules of Dokerfile for building image to Makefile
 
+docker inspect docker.io/vldmrhlushko/kbot:v1.0.5-7052b06-linux-arm64 | grep Architecture
+
 
 

@@ -1,13 +1,14 @@
 .PHONY: build linux windows macos format lint test clean
 APP=$(shell basename $(shell git remote get-url origin ))
-REGISTRY=vldmrhlushko
+REGISTRY=ghcr.io/vldmrhlushko
 VERSION=$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
 
-# default
-TARGETOS=linux
-TARGETARCH=amd64
+PKG=github.com/vldmrhlushko/kbot/cmd
 
-BINARY_NAME=kbot
+# default
+TARGETOS?=linux
+TARGETARCH?=amd64
+
 
 format:
 	gofmt -s -w ./
@@ -27,6 +28,11 @@ build:
 	go build -v -o build/$(TARGETOS)-$(TARGETARCH)/$(BINARY_NAME) \
 	-ldflags "-X=$(PKG).appVersion=$(VERSION)"
 
+
+#build: format get
+#	CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${shell dpkg --print-architecture} go build -v -o kbot -ldflags "-X="github.com/vldmrhlushko/kbot/cmd.appVersion=${VERSION}
+
+
 # Platforms
 
 linux:
@@ -41,12 +47,15 @@ windows:
 macos:
 	$(MAKE) build TARGETOS=darwin TARGETARCH=amd64
 
+macos-arm:
+	$(MAKE) build TARGETOS=darwin TARGETARCH=arm64
 
 image:
-	docker build . -t ${REGISTRY}/${APP}:${VERSION}-${TARGETOS}-${TARGETARCH}
+	docker build . -t $(REGISTRY)/$(APP):$(VERSION)-$(TARGETOS)-$(TARGETARCH)
 
 push:
-	docker push ${REGISTRY}/${APP}:${VERSION}-${TARGETOS}-${TARGETARCH}
+	docker push $(REGISTRY)/$(APP):$(VERSION)-$(TARGETOS)-$(TARGETARCH)
+
 
 clean:
-	rm -rf kbot
+	rm -rf build
