@@ -10,9 +10,7 @@ ARG VERSION
 RUN CGO_ENABLED=0 GOOS=$TARGETOS GOARCH=$TARGETARCH \
     go build -v -o kbot \
     -ldflags "-X=github.com/vldmrhlushko/kbot/cmd.appVersion=$VERSION"
-
-    
-
+   
 FROM alpine:latest
 
 WORKDIR /
