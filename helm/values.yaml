@@ -7,16 +7,16 @@ replicaCount: 1
 
 # This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/
 image:
-  repository: vldmrhlushko
-  # This sets the pull policy for images.
+  repository: vldmrhlushko/kbot
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: "kbot:v1.0.5-f4a07e8-linux-amd64"
+  tag: "v1.0.5-f4a07e8-linux-amd64"
+  arch: amd64
+
 
 secret:
-  name: kbot-secret 
-  tockenName: TELE_TOKEN
-  tockenKey: tocken
+  name: kbot-secret
+  tokenName: TELE_TOKEN
+  tokenKey: token
 
 
 autoscaling:
