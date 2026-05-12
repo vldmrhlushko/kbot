@@ -17,11 +17,6 @@ secret:
   tokenKey: token
 autoscaling:
   enabled: false
-serviceAccount:
-  create: true
-  automount: true
-  annotations: {}
-  name: "kbot-helm"
 service:
   type: ClusterIP
   port: 8080
