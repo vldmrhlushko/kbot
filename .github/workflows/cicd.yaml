@@ -50,7 +50,7 @@ jobs:
 
       - uses: mikefarah/yq@master
         with:
-          cmd: yq eval -i '.image.tag=stenv(VERSION)' 
+          cmd: yq eval -i '.image.tag=strenv(VERSION)' helm/values.yaml
 
       - run: |
           git config user.name "github-actions"
