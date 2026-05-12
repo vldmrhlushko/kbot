@@ -21,7 +21,7 @@ serviceAccount:
   create: true
   automount: true
   annotations: {}
-  name: ""
+  name: "kbot-helm"
 service:
   type: ClusterIP
   port: 8080
