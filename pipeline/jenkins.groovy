@@ -31,12 +31,6 @@ spec:
 
     stages {
 
-        stage("clone") {
-            steps {
-                echo 'Cloning repository...'
-                  git branch: "${BRANCH}", url: "${REPO}"
-            }
-        }
 
         stage("test") {
             steps {
