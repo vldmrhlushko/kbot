@@ -32,19 +32,20 @@ spec:
     stages {
 
 
-        stage("test") {
+        stage('Test') {
             steps {
-                echo 'Testing Go installation...'
-                sh 'make test'
+                container('go') {
+                    sh 'make test'
                 }
             }
+        }
 
-        stage('build') {
+        stage('Build') {
             steps {
-                echo 'Building Go binary...'
-                sh 'make build'
-            }    
-
+                container('go') {
+                    sh "make build TARGETOS=${params.OS} TARGETARCH=${params.ARCH}"
+                }
+            }
         }
 
         stage("image") {
