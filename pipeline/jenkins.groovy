@@ -63,7 +63,7 @@ spec:
         stage("push") {
             steps {
                 script {
-                    docker.withRegistry('', 'ghcr'https://ghcr.io', 'github') {
+                    docker.withRegistry( '', 'ghcr' ) {
                         sh 'make push'
                     }
                 }
@@ -74,6 +74,6 @@ spec:
 
 
 
-        
+  }     
     
 }
