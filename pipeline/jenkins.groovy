@@ -1,29 +1,33 @@
 pipeline {
-    agent any
+    agent {
+        kubernetes {
+            label 'go-build-agent'
+
+            yaml """
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+  - name: go
+    image: golang:1.22
+    command:
+    - cat
+    tty: true
+"""
+        }
+    }
 
     parameters {
         choice(
             name: 'OS',
             choices: ['linux', 'darwin', 'windows'],
-            description: 'Target operating system'
+            description: 'Target OS'
         )
 
         choice(
             name: 'ARCH',
             choices: ['amd64', 'arm64'],
-            description: 'Target architecture'
-        )
-
-        booleanParam(
-            name: 'SKIP_TESTS',
-            defaultValue: false,
-            description: 'Skip running tests'
-        )
-
-        booleanParam(
-            name: 'SKIP_LINT',
-            defaultValue: false,
-            description: 'Skip running linter'
+            description: 'Target ARCH'
         )
     }
 
@@ -35,47 +39,21 @@ pipeline {
             }
         }
 
-        stage('Lint') {
-            when {
-                expression { !params.SKIP_LINT }
-            }
+        stage('Go version') {
             steps {
-                sh 'make lint'
+                container('go') {
+                    sh 'go version'
+                }
             }
         }
 
-        stage('Test') {
-            when {
-                expression { !params.SKIP_TESTS }
-            }
+        stage('Build Go binary') {
             steps {
-                sh 'make test'
-            }
-        }
-
-        stage('Build') {
-            steps {
-                sh """
-                    make build TARGETOS=${params.OS} TARGETARCH=${params.ARCH}
-                """
-            }
-        }
-
-        stage('Docker Image') {
-            steps {
-                sh """
-                    make image TARGETOS=${params.OS} TARGETARCH=${params.ARCH}
-                """
-            }
-        }
-
-        stage('Push Image') {
-            steps {
-                withCredentials([string(credentialsId: 'github-token', variable: 'CR_PAT')]) {
-                    sh '''
-                        echo $CR_PAT | docker login ghcr.io -u vldmrhlushko --password-stdin
-                        make push TARGETOS=${OS} TARGETARCH=${ARCH}
-                    '''
+                container('go') {
+                    sh """
+                        echo "Building for ${params.OS}/${params.ARCH}"
+                        make build TARGETOS=${params.OS} TARGETARCH=${params.ARCH}
+                    """
                 }
             }
         }
