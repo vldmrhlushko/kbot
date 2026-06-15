@@ -2,7 +2,8 @@
 APP=$(shell basename $(shell git remote get-url origin ))
 REGISTRY=ghcr.io/vldmrhlushko
 #VERSION=$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
-VERSION ?= $(shell git describe --tags --always 2>/dev/null || git rev-parse --short HEAD)
+#VERSION ?= $(shell git describe --tags --always 2>/dev/null || git rev-parse --short HEAD)
+VERSION ?= $(shell git describe --exact-match --tags 2>/dev/null || echo "$$(git describe --tags --abbrev=0)-$$(git rev-parse --short HEAD)")
 
 PKG=github.com/vldmrhlushko/kbot/cmd
 
