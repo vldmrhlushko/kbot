@@ -47,7 +47,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - run: echo "VERSION=$(make -s print-version)-linux-amd64" >> $GITHUB_ENV
+      - run: echo "VERSION=$(make -s print-version)" >> $GITHUB_ENV
      
       - uses: mikefarah/yq@master
         with:
