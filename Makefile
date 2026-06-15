@@ -60,7 +60,7 @@ image:
 		--build-arg TARGETOS=$(TARGETOS) \
 		--build-arg TARGETARCH=$(TARGETARCH) \
 		--build-arg VERSION=$(VERSION) \
-		-t $(REGISTRY)/$(APP):$(VERSION)-$(TARGETOS)-$(TARGETARCH) \
+		-t $(REGISTRY)/$(APP):$(VERSION) \
 		.
 
 push:
