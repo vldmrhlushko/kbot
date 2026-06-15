@@ -24,6 +24,9 @@ test:
 get:
 	go get
 
+print-version:
+	@echo $(VERSION)
+
 build:
 	@echo "Building for $(TARGETOS)/$(TARGETARCH)"
 	CGO_ENABLED=0 GOOS=$(TARGETOS) GOARCH=$(TARGETARCH) \
